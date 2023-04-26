@@ -17,8 +17,20 @@ const userSchema = new mongoose.Schema(
     refreshToken: {
       type: String,
     },
+    lastActive: {
+      type: String,
+      required: false,
+    },
+    active: {
+      type: String,
+      default: false,
+    },
     id: {
       type: String,
+    },
+    otp: {
+      type: String,
+      required: true,
     },
   },
   {

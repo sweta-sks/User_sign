@@ -7,212 +7,133 @@
 
     <title>SignUp page</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        font-size: 16px;
-        line-height: 1.5;
-        margin: 0;
-        padding: 0;
-      }
-      /* Shared */
-      /* .loginBtn {
-        box-sizing: border-box;
-        position: relative;
-        /* width: 13em;  - apply for fixed size */
-
-      /* border: none;
-        text-align: left;
-        line-height: 34px;
-        white-space: nowrap;
-        border-radius: 0.2em;
-        font-size: 16px;
-        color: #fff;
-        margin-left: 10px;
-      } */
-      */ .loginBtn:before {
-        content: "";
-        box-sizing: border-box;
-        position: absolute;
-
-        left: 0;
-        width: 34px;
-        height: 100%;
-      }
-      .loginBtn:focus {
-        outline: none;
-      }
-      .loginBtn:active {
-        box-shadow: inset 0 0 0 32px rgba(0, 0, 0, 0.1);
-      }
-
-      /* Facebook */
-      .loginBtn--facebook {
-        background-color: #4c69ba;
-        background-image: linear-gradient(#4c69ba, #3b55a0);
-        /*font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;*/
-        text-shadow: 0 -1px 0 #354c8c;
-      }
-      .loginBtn--facebook:before {
-        border-right: #364e92 1px solid;
-        background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_facebook.png")
-          6px 6px no-repeat;
-        margin-left: -10px;
-      }
-      .loginBtn--facebook:hover,
-      .loginBtn--facebook:focus {
-        background-color: #5b7bd5;
-        background-image: linear-gradient(#5b7bd5, #4864b1);
-      }
-
-      div .allignment {
-        display: flex;
-        margin-left: 10px;
-      }
-
-      div .login {
-        margin: 10px;
-      }
-      .signup {
-        background-color: #0c89ef; /* Green background */
-        border: none; /* Remove border */
-        color: white; /* White text */
-        padding: 12px 24px; /* Some padding */
-        text-align: center; /* Center text */
-        text-decoration: none; /* Remove underline */
-        display: inline-block; /* Make it a block element */
-        font-size: 16px; /* Set font size */
-        margin: 4px 2px; /* Add some margin */
-        cursor: pointer; /* Add cursor pointer */
-        border-radius: 4px; /* Add border radius */
-      }
-
-      button:hover {
-        text-decoration: underline;
-      }
-      .login button {
-        background-color: #1b81ca; /* Green background color */
-        border: none; /* Remove border */
-        color: white; /* White text color */
-        padding: 12px 24px; /* Add padding */
-        text-align: center; /* Center text */
-        text-decoration: none; /* Remove underline */
-        display: inline-block; /* Make element inline */
-        font-size: 16px; /* Font size */
-        margin-top: -10px; /* Add some margin */
-        cursor: pointer; /* Change cursor on hover */
-        border-radius: 4px; /* Rounded corners */
-      }
-
-      .login button:hover {
-        background-color: #0c17e4; /* Darker green on hover */
-      }
-
-      .login button a {
-        color: white; /* White text color */
-        text-decoration: none; /* Remove underline */
-      }
-
-      .close-modal {
-        position: absolute;
-        top: 1.2rem;
-        right: 2rem;
-        font-size: 5rem;
-        color: #333;
-        cursor: pointer;
-        border: none;
-        background: none;
-      }
-
-      h1 {
-        font-size: 2.5rem;
-        margin-bottom: 2rem;
-      }
-
-      p {
-        font-size: 1.8rem;
-      }
-
-      /* -------------------------- */
-      /* CLASSES TO MAKE MODAL WORK */
-      .hidden {
-        display: none;
-      }
-
+      /* Style for the modal */
       .modal {
-        position: absolute;
+        position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 70%;
-
         background-color: white;
-        padding: 6rem;
-        border-radius: 5px;
-        box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
-        z-index: 10;
+        padding: 20px;
+        border-radius: 10px;
+        z-index: 1;
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
+        width: 90%;
+        max-width: 500px;
       }
 
-      .overlay {
+      /* Style for the close button */
+      .close-modal {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(3px);
-        z-index: 5;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        font-weight: bold;
+        color: #aaa;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
       }
+
+      /* Style for the alignment container */
+      .allignment {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+      }
+
+      /* Style for the Google sign-in button */
       .google-btn {
-        width: 184px;
-        height: 42px;
-        background-color: #4285f4;
-        border-radius: 2px;
-        margin-bottom: -10px;
-        box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.25);
-      }
-      .google-btn .google-icon-wrapper {
-        position: absolute;
-        margin-top: 1px;
-        margin-left: 1px;
-        width: 40px;
-        height: 40px;
-        border-radius: 2px;
-        background-color: #fff;
-      }
-      .google-icon {
-        position: absolute;
-        margin-top: 11px;
-        margin-left: 11px;
-        width: 18px;
-        height: 18px;
-      }
-      .btn-text {
-        float: right;
-        margin: 11px 11px 0 0;
-        color: #fff;
-        font-size: 14px;
-        letter-spacing: 0.2px;
-        font-family: "Roboto";
-      }
-      .btn-text:hover {
-        box-shadow: 0 0 6px #4285f4;
-      }
-      .btn-text:active {
-        background: #1669f2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        color: black;
+        border: 2px solid black;
+        border-radius: 5px;
+        padding: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        width: 100%;
+        max-width: 200px;
+        margin-bottom: 10px;
       }
 
-      @import url(https://fonts.googleapis.com/css?family=Roboto:500);
+      .google-btn:hover {
+        background-color: rgb(36, 208, 208);
+        color: white;
+      }
+
+      .google-icon-wrapper {
+        width: 20%;
+        margin-right: 10px;
+        text-align: center;
+      }
+
+      .google-icon {
+        width: 50%;
+      }
+
+      /* Style for the Facebook and LinkedIn sign-in buttons */
+      .loginBtn--facebook,
+      .loginBtn--linkedIn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        color: black;
+        border: 2px solid black;
+        border-radius: 5px;
+        padding: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        width: 100%;
+        max-width: 200px;
+        margin-bottom: 10px;
+      }
+
+      .loginBtn--facebook:hover,
+      .loginBtn--linkedIn:hover {
+        background-color: #2d4373;
+        color: aliceblue;
+      }
+
+      /* Style for the sign-up form */
+      form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+      }
+      a {
+        color: black;
+        text-decoration: none;
+      }
+
+      .form-control {
+        margin-bottom: 10px;
+        width: 100%;
+        max-width: 300px;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid black;
+        border-radius: 5px;
+        font-size: 16px;
+      }
     </style>
   </head>
   <body>
     <div class="modal">
-      <button class="close-modal">&times;</button>
+      <!-- <button class="close-modal">&times;</button> -->
       <div class="allignment">
-        <div class="login">
-          <button>
-            <a href="/signin">sign In</a>
-          </button>
-        </div>
         <div class="google-btn" class="login">
           <div class="google-icon-wrapper">
             <img
@@ -222,44 +143,88 @@
           </div>
           <a href="/auth/google" class="btn-text"><b>Sign in with google</b></a>
         </div>
-
-        <div class="login">
+        <div class="google-btn" class="login">
+          <div class="google-icon-wrapper">
+            <img
+              class="google-icon"
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKIAAACiCAMAAAD1LOYpAAAAYFBMVEU6VZ/////Jz+IxT55AWqLU2Oj29/oyT5xfdK+QnMTZ3em7wtscQZdwgbQ3U54tTJvBx9wmR5nr7fRKYqavuNShrM5/jr1leLBUaqqmsM+Ek796ibrf4+5ZbquXosYHOJPGcslWAAACSklEQVR4nO3bXY+iQBCFYZYP20XtphnHYRx0//+/XN2bzToU0MkpqpM9762YPAGJUt0WBWOMMcYYY4wxppH30gubMqR8CMEVtZC17lE41qf7uSvLZqr2PdryvAvhUva7H3Ld0VTowsdhjvfsYEn0x6HrF4C2xKp4X/TZEuN+XCO0I/p4Wb7GpkQfP9cB7Yhx1cfQkhjWC42I8bpeaEMMw8o7xY5YtwlCE2LCrWJE9D5JaEGMh9yJ7pZyr5gQwzlNaECsE0/i9sTqlCjcnnhMvFkMiDH1Om9OdMPSo8rupc2JYeEHRPt5Pb203/hZf/7Lr/+qYwjVv209jZj9amlc2JgzVexk4Vg7a96zUMrEIYdzWHgnE02nDn/zlUz8yuIyzxH7WyaDRJnYvmVPbHIYdRYkYiIREYmISEREIiISEZEISX4wMCF6970oE4tq4vhHmr90h/1EjURsP6YOf6QorJvX8cyfEY3Y1NHPN4ibJgDEpKULOcWnaxBxzJ9Y5k8850+850+8VrkTd5qjHgyx15wjY4ij5qgHQ2z0gChipzm6xRDPmvvuMMR7/sRT/hf6pjkBxxBVF68gxP6XohBDbPMn6q4XQYi625EhRN0lLQhRd0kLQdwNqsS3dbt5Z+uVV90uPycST+04dfRF908Q3lXfCjMzHf+6KeKR6kBHYOc/vCMREYmISEREIiISEZGIiEREJCIiERGJiEhERCIiEhGRiIhERCQiIhERiYhIREQiIhIRkYiIREQkIiIREYmISEREIiISEf13xN/pxDIFTQxkLQAAAABJRU5ErkJggg==
+            "
+            />
+          </div>
+          <a href="/auth/facebook" class="btn-text"
+            ><b>Sign in with facebook</b></a
+          >
+        </div>
+        <div class="google-btn" class="login">
+          <div class="google-icon-wrapper">
+            <img
+              class="google-icon"
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJ8AAACfCAMAAADQxfvSAAAAaVBMVEUAd7f///8AdbYAcrUAcLT0+fw+hL1EicDp8/jl7vVmnsoAa7KNudhLksSiwtxgnsqwyuK90+eEr9PT5fB2ps4nf7sAZrAkhL5SjsJWl8fb6fPK3u17rNIVe7lyncp5osw0i8Gau9lglcabtr3eAAAEoElEQVR4nO2d23aqMBCGYZKgGFGOHgBb9f0fckPVVoQcKCxnulf+m96k+DmZkMlkEj3/oTBJo72Hr32UJuE3lXf/m+WF5Ayw4RoB47LIsw6fSIFTYHuooUnFD18YSUp0rUBG4YMvPHBsnAHxQ3jjExFFvAYwEl98qcQmUUimLV8G1HzvIYCs4ctp9m4rnvteWFA1X2PAIvQSqt7XSiZeSrd7mw5OvYhhQ2jEIm9P1/0aB6QQsPzXAmCMcxqRV1+Mnw4f9Xpdf14LSW4gwe68yZa3OFGU8ZEYIT8kfkfZilAQC+wi/FclHhUTwinp0bUmXNAAZKdyCK/xQxKxNsCg9VqVAQEL8liF13TxCZvOY0c1nu+v0SMypnC+uwtihxQ81eH5/gZ3iGgGx01lgcu36L+Yu8pRhzDLDXj+BnWEyI2Jr9xh8u0yE59Atd8uNPH5qAP4P+DD7d+Ktv+Zx2+GOn4t3n+o/geBaf5Y4YaAxvk3QMXz+Kee74IcAALTziDihL3KZJGOr8ZfIfGLGq/Ctl4rUL6jaeSrQSoAlycCy0tPnT8408BrLVj3XtNiQ2kfkQebLmFCbKOOsaDO7ogiXC+ASt9+C7iEqK7T+uhJQrm/jtr0MydnOSeaIrvZzLiUjR9/ebOUbLJD3/ZlXvX6WBhq9NqqrWg5RXmcVFVWlmVWJZftvt3zmWJLuF7injZ5N/YDyDcDrernSZrxxWfcX7KKJD1MKLqRigxv9fxIZSau+g5ymDwPwN1jjSrnvyRUpyif99uZciVa3VoBP+oX08safjNngqfM8C4XP9+4UOeBvwzIvNi0FPSr4y9WM7BQ5jjEz+ISgqXyY9tteR5p89gP1eP7eBY+nhuNd1M8eiDPwTcQP6o0uoZkBj5pzJI8A44cJNP5FsYke0cjM9rT+bbGJHFXq1EWnM5nzCG+aNyydTrfaI3K2SHw+WNWrhh8Y14yGHziaG9ADD4/Js4X2m+LovCNSGvj8FXW2xY4fL51HIPEZz2CZ+UTIszKpbCIF6znkBn5kvQsd414dDHOydXb7Veu4F7b2CyCYWVoXwaWDjgXX7x7LrwEzvU7U+L6Xr7Lqz8B0/fxh2UHz8MX97PVUGjjVtti8Vn4yqEnc21pV/xOvuEqHm11iG2MNQdfNbwXoa2NK9/It1X0lSYpYl3YMANfqPooritveB+fcq7SVu9Z1qnPwKcM5likmYkta0en86mnKmCa+h/L0swZ1ufqWE5Xn2S5yJzOF6s9XVefZHmaZzqfZqaSmiDBMkKdzqfJ9+jqp97Gp+mov8y3dXyOz/E5Psfn+Byf43N8js/xOT7H5/gcn+NzfI7P8Tk+x+f4HN+f5QuI84GySmC5tzofoDkjzGs1n20RqvoZz5XU7KJqpSt0gEJp9sy6iFcO3H7lt6denj8YmOIUS6IthWRHhd0r2/qm9iGHdN1Teu1u6wJb9Rut1x+GE+AsqIf+LR91dnfw6FNv13n4FJXJDFbHqpzmEPZlUVrBnvz9ndTvP6V+fyyN+wyG1d6/S/3+YvL3P1O/P5v8/ePU728nf/89+d8P8Kn//sJXJ5P8/Yp/itJiHNZSxOwAAAAASUVORK5CYII="
+            />
+          </div>
+          <a href="/auth/linkedIn" class="btn-text"
+            ><b>Sign in with LinkedIn</b></a
+          >
+        </div>
+        <!-- <div class="login">
           <button class="loginBtn loginBtn--facebook">
-            <a href="/auth/facebook"> Login with Facebook </a>
+            <a href="/auth/facebook"> Sign in with Facebook </a>
           </button>
         </div>
         <div class="login">
           <button class="loginBtn loginBtn--linkedIn">
-            <a href="/auth/linkedIn"> Login with linkedIn </a>
+            <a href="/auth/linkedIn"> Sign in with linkedIn </a>
           </button>
-        </div>
+        </div> -->
       </div>
-      <h2>Sign Up</h2>
+
+      <h2 style="text-align: center">Sign Up</h2>
 
       <form action="/create" method="post">
         <div class="form-control">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" required />
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="name"
+            required
+          />
         </div>
         <div class="form-control">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required />
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="email"
+            required
+          />
         </div>
         <div class="form-control">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" required />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
         </div>
         <div class="form-control">
-          <label for="confirm-password">Confirm Password</label>
           <input
             type="password"
             id="confirm-password"
             name="confirmPassword"
+            placeholder="confirm-password"
             required
           />
         </div>
         <button class="signup" type="submit">Sign Up</button>
       </form>
+      <div>
+        <h3>
+          Already have an account?
+          <a class="login" href="/signin">sign In</a>
+        </h3>
+      </div>
     </div>
     <div class="overlay hidden"></div>
     <script>

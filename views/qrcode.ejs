@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="style.css" />
-    <title>SignUp page</title>
+    <title>QR Code</title>
     <style>
       body {
         background-color: #f5f5f5;
@@ -23,13 +23,31 @@
         text-align: center;
         margin-top: 30px;
       }
+      #qrcode-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 50px;
+      }
+      #qrcode {
+        width: 200px;
+        height: 200px;
+        margin-top: 30px;
+      }
+      #qrcode-label {
+        color: #0077b6;
+        font-size: 24px;
+        text-align: center;
+        margin-top: 30px;
+      }
     </style>
   </head>
   <body>
-    <h1>
-       Here is QR Code
-    </h1>
-    <img src="<%= qrcode %>" " alt="qrcode">
-    </form>
+    <h1>Your QR Code</h1>
+    <div id="qrcode-container">
+      <img id="qrcode" src="<%= qrcode %>" alt="QR Code" />
+      <p id="qrcode-label">This QR code contains your details</p>
+    </div>
   </body>
 </html>

@@ -4,29 +4,56 @@ const router = express.Router();
 const qrcode = require("qrcode");
 //const logger = require("lo");
 const passport = require("passport");
+const { otpGenerator } = require("../config/otp");
+const sendMail = require("../config/nodemailer");
+const json = require("body-parser/lib/types/json");
 router.get("/", (req, res) => {
-  res.render("index");
+  return res.render("index");
 });
 
-router.get("/signup", (req, res) => {
-  return res.render("welcome");
+router.get("/verify/:email", (req, res) => {
+  //res.send(req.user);
+  return res.render("verify_email", { email: req.params.email });
 });
+
 router.get("/signin", (req, res) => {
   return res.render("signIn");
+});
+router.get("/welcome", async (req, res) => {
+  return res.render("welcome");
+});
+router.post("/verify/:id", async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.params.id });
+    if (!user) {
+      return res.send("user is undefined");
+    }
+    if (user && req.body.otp !== user.otp) {
+      return res.send("Invalid OTP");
+    }
+
+    return res.redirect(`/qrcode/${user._id}`);
+  } catch (err) {
+    res.send(err);
+  }
 });
 
 router.post("/create", async (req, res) => {
   try {
-    const text = req.query;
-    console.log(text);
+    const otp = otpGenerator();
+    console.log(otp);
     if (req.body.password !== req.body.confirmPassword) {
       return res.redirect("back");
     }
     const user = await User.findOne({ email: req.body.email });
 
     if (!user) {
-      await User.create(req.body);
-      return res.redirect("/signup");
+      await User.create({
+        ...req.body,
+        otp: otp,
+      });
+      await sendMail.sendMail({ email: req.body.email, otp: otp });
+      return res.redirect(`/verify/${req.body.email}`);
     } else {
       console.log("user exist");
       return res.redirect("back");
@@ -41,8 +68,7 @@ router.post("/create-session", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (user && req.body.password === user.password) {
-      console.log(user);
-      return res.render("welcome");
+      return res.redirect(`/qrcode/${user._id}`);
     }
     return res.redirect("back");
   } catch (err) {
@@ -87,14 +113,17 @@ router.get(
   }
 );
 
-router.get("/qrcode", async (req, res) => {
-  const text = req.query.text || "https://www.example.com";
+router.get("/qrcode/:id", async (req, res) => {
+  //res.send(stringText);
+  // const text = req.params || "https://www.example.com";
+  // res.send(text);
+  // const stringText = JSON.stringify(text);
   try {
-    console.log(text);
-    const qrCode = await qrcode.toDataURL(text);
-    return res.render("qrCode", { qrcode: qrCode });
+    const user = await User.findById(req.params.id);
+    const stringText = JSON.stringify(user);
+    const qrCode = await qrcode.toDataURL(stringText);
+    res.render("qrCode", { qrcode: qrCode });
   } catch (err) {
-    console.error(err);
     return res.status(500).send("Error generating QR code");
   }
 });

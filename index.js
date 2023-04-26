@@ -137,8 +137,8 @@ passport.use(
   )
 );
 
-app.use("/", require("./router"));
-
+app.use("/", require("./router/index"));
+app.use("/otp", require("./router/otp"));
 app.listen(port, function (err) {
   if (err) {
     console.log("error", err);
